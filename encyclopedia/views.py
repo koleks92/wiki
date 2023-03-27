@@ -33,6 +33,10 @@ class NewForm(forms.Form):
     title = forms.CharField(label='',required=True, widget=forms.TextInput(attrs={'placeholder': 'New page title'}))
     content = forms.CharField(label='',required=True, widget=forms.Textarea(attrs={'placeholder': 'New page content'}))
 
+class EditForm(forms.Form):
+    content = forms.CharField(label='',required=True, widget=forms.Textarea(attrs={'placeholder': 'New page content'}))
+
+
 
 ''' Main functions '''
 def index(request):
@@ -105,7 +109,24 @@ def new_page(request):
             
         
     return render(request, "encyclopedia/new_page.html", {
-        "title_form": NewForm(),
+        "new_form": NewForm(),
+        "form": SearchForm()
+    })
+
+def edit_page(request, title):
+    content = util.get_entry(title)
+    
+    if request.method == "POST":
+        content = EditForm(request.POST)
+        if content.is_valid():                         # Check if valid and clean data
+            content = content.cleaned_data['content']
+            util.save_entry(title, content)
+            return entry(request, title)
+
+
+    return render(request, "encyclopedia/edit_page.html", {
+        "title": title,
+        "edit_form": EditForm(initial={'content': content}),
         "form": SearchForm()
     })
     
