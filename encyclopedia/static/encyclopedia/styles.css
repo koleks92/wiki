@@ -1,5 +1,5 @@
 body {
-    margin: 0px 15px 0px 10px;
+    margin: 0px 15px 0px 20px;
     background-color: white;
 }
 
@@ -9,7 +9,7 @@ code {
 
 h1 {
     margin-top: 0px;
-    padding-top: 20px;
+    padding-top: 15px;
 }
 
 #new
@@ -27,9 +27,6 @@ h1 {
     justify-content: flex-end;
 }
 
-#edit {
-
-}
 
 textarea {
     height: 75vh;
@@ -46,14 +43,23 @@ textarea {
     line-height: 15px;
 }
 
-
-
 .sidebar {
     background-color: #f0f0f0;
     height: 100vh;
-    padding: 20px;
+    padding: 10px 20px;
+    width: 100%;
+}
+
+.links {
+    margin-top: 10px;
 }
 
 .sidebar h2 {
     margin-top: 5px;
 }
+
+a:hover {
+    text-decoration: none;
+    color: black;
+}
+

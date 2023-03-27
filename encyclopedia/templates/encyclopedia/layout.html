@@ -10,19 +10,20 @@
     </head>
     <body>
         <div class="row">
+            
             <div class="sidebar col-lg-2 col-md-3">
                 <h2>Wiki</h2>
                 <form action="{% url 'search' %}">
                     {{ form }}
                 </form>
-                <div>
-                    <a href="{% url 'index' %}">Home</a>
+                <div class="links">
+                    <a class="list-group-item list-group-item-action" href="{% url 'index' %}">Home</a>
                 </div>
-                <div>
-                    <a href="{% url 'new_page' %}">Create New Page</a>
+                <div class="links">
+                    <a class="list-group-item list-group-item-action" href="{% url 'new_page' %}">Create New Page</a>
                 </div>
-                <div>
-                    <a href="{% url 'random' %}">Random Page</a>
+                <div class="links">
+                    <a class="list-group-item list-group-item-action" href="{% url 'random' %}">Random Page</a>
                 </div>
                 {% block nav %}
                 {% endblock %}

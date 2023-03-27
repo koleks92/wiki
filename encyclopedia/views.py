@@ -26,15 +26,18 @@ def sub_check(str):
     
     return results
 
+# Search Form
 class SearchForm(forms.Form):
     search = forms.CharField(label="", widget=forms.TextInput(attrs={'placeholder': 'Search Enyclopedia'}))
 
+# New Page Forms
 class NewForm(forms.Form):
     title = forms.CharField(label='',required=True, widget=forms.TextInput(attrs={'placeholder': 'New page title'}))
     content = forms.CharField(label='',required=True, widget=forms.Textarea(attrs={'placeholder': 'New page content'}))
 
+# Edit Page form
 class EditForm(forms.Form):
-    content = forms.CharField(label='',required=True, widget=forms.Textarea(attrs={'placeholder': 'New page content'}))
+    content = forms.CharField(label='',required=True, widget=forms.Textarea())
 
 
 
@@ -48,8 +51,8 @@ def index(request):
 
 def entry(request, title):
     if name_check(title):                           # Changing title to correct form
-        title = name_check(title)
-        html = markdown2.markdown(util.get_entry(title))
+        title = name_check(title)                   
+        html = markdown2.markdown(util.get_entry(title)) # Change MD to HTML
         return render(request, "encyclopedia/entry.html", {
             "entry": html,
             "title": title,
@@ -76,9 +79,10 @@ def search(request):
                 "form": SearchForm()
             })
         else:                                   # Else render notfound page
-            return render(request, "encyclopedia/notfound.html" , {
+            return render(request, "encyclopedia/error.html" , {
             "title": search.capitalize() + " - Not Found",
-            "form": SearchForm()
+            "form": SearchForm(),
+            "text": "Page not found"
             })
     else:
         return render(request, "encyclopedia/layout.html", {
@@ -93,18 +97,18 @@ def random_page(request):
 def new_page(request):
     # TODO
     if request.method == "POST":
-        content = NewForm(request.POST)
+        content = NewForm(request.POST)                # Get data
         if content.is_valid():                         # Check if valid and clean data
             title = content.cleaned_data['title']
             content = content.cleaned_data['content']
-        if name_check(title):
+        if name_check(title):                          # Check if not in database
             return render(request, "encyclopedia/error.html" , {
                 "form": SearchForm(),
                 "title": "Error",
                 "text": "This title is already in our database."
             })
         else:
-            util.save_entry(title, content)
+            util.save_entry(title, content)             # Save
             return entry(request, title)
             
         
@@ -114,13 +118,13 @@ def new_page(request):
     })
 
 def edit_page(request, title):
-    content = util.get_entry(title)
+    content = util.get_entry(title)  
     
     if request.method == "POST":
-        content = EditForm(request.POST)
+        content = EditForm(request.POST)               # Get data
         if content.is_valid():                         # Check if valid and clean data
             content = content.cleaned_data['content']
-            util.save_entry(title, content)
+            util.save_entry(title, content)            # Save and return a changed page
             return entry(request, title)
 
 
