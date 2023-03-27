@@ -4,6 +4,7 @@ import markdown2
 from django import forms
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+import random
 
 
 ''' Helpers '''
@@ -57,7 +58,6 @@ def search(request):
         search = form.cleaned_data['search']
         if name_check(search):                  # Check if any form of search is in entries
             search = name_check(search)
-            print(search)
             return entry(request, search)
         elif sub_check(search):                 # Check if substring of any
             return render(request, 'encyclopedia/search.html', {
@@ -74,8 +74,8 @@ def search(request):
         "entries": util.list_entries()
         })
     
-def random(request):
-    # TODO
+def random_page(request):
+    return entry(request, random.choice(util.list_entries()))
 
     
 
