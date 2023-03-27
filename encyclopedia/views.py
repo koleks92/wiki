@@ -101,10 +101,9 @@ def new_page(request):
             })
         else:
             util.save_entry(title, content)
+            return entry(request, title)
             
-        print(title)
-        print(content)
-
+        
     return render(request, "encyclopedia/new_page.html", {
         "title_form": NewForm(),
         "form": SearchForm()
