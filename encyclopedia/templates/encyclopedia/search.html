@@ -1,0 +1,15 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Search - Wiki
+{% endblock %}
+
+{% block body %}
+    <h1>Search for "{{ search }}"</h1>
+    <ul class="list-group list-group-flush">
+        {% for r in results %}
+            <li class="list-group-item"><a href={% url 'entry' r %}>{{ r }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
